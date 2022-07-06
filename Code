@@ -1,0 +1,84 @@
+import tkinter as tk
+from tkinter import ttk
+
+class GUI:
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title('Cash Register')
+        self.root.geometry('250x150')
+
+        self.frame1 = tk.Frame(self.root)
+        self.frame2 = tk.Frame(self.root)
+        self.frame3 = tk.Frame(self.root)
+        self.frame4 = tk.Frame(self.root)
+        self.frame5 = tk.Frame(self.root)
+        self.frame6 = tk.Frame(self.root)
+
+        # Hardback Label
+        self.hardback_label = tk.Label(self.frame1, text='Hardbacks:')
+        self.hardback_label.pack(side='left')
+
+        # Hardback Entry
+        self.hardback_entry = tk.Entry(self.frame1, width=10)
+        self.hardback_entry.pack(side='left')
+
+        # Paperback Label
+        self.paperback_label = tk.Label(self.frame2, text='Paperbacks:')
+        self.paperback_label.pack(side='left')
+
+        # Paperback Entry
+        self.paperback_entry = tk.Entry(self.frame2, width=10)
+        self.paperback_entry.pack(side='left')
+
+        # Magazine Label
+        self.magazine_label = tk.Label(self.frame3, text='Magazines')
+        self.magazine_label.pack(side='left')
+
+        # Magazine Entry
+        self.magazine_entry = tk.Entry(self.frame3, width=10)
+        self.magazine_entry.pack(side='left')
+
+        # Checkbox
+        self.discount = tk.IntVar()
+        self.checkbox = ttk.Checkbutton(self.frame4, text='20% Discount', variable=self.discount, onvalue=1, offvalue=2)
+        self.checkbox.pack(side='left')
+
+        # Total Dynamic Label
+        self.total = tk.StringVar()
+        self.total_label = tk.Label(self.frame5, textvariable=self.total)
+        self.total_label.pack()
+        self.total.set("Total: $  0.00")
+
+        # Calculate Button
+        self.calc = tk.Button(self.frame6, text='Calculate', command=self.calculate)
+        self.calc.pack(side='left')
+
+        # Quit Button
+        self.leave = tk.Button(self.frame6, text='Quit', command=self.root.destroy)
+        self.leave.pack()
+
+        # Unpacking Frames
+        self.frame1.pack()
+        self.frame2.pack()
+        self.frame3.pack()
+        self.frame4.pack()
+        self.frame5.pack()
+        self.frame6.pack()
+
+        self.root.mainloop()
+
+    def calculate(self):
+            try:
+                hb = float(self.hardback_entry.get()) * 7
+                pb = float(self.paperback_entry.get()) * 2.5
+                mag = float(self.magazine_entry.get()) * 3.95
+                cbox = self.discount.get()
+                if cbox == 1:
+                    self.total.set(f"Total: $  {(hb + pb + mag) * .8:.2f}")
+                else:
+                    self.total.set(f"Total: $ {hb + pb + mag:.2f}")
+            except:
+                self.total.set("Total: Error")
+
+
+x = GUI()
